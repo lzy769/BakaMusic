@@ -9,6 +9,8 @@ import { localPluginName } from "@/common/constant";
 import { showContextMenu } from "@/renderer/components/ContextMenu";
 import { useTranslation } from "react-i18next";
 import { useSortedSupportedPlugin } from "@shared/plugin-manager/renderer";
+import { dialogUtil, fsUtil } from "@shared/utils/renderer";
+import { toast } from "react-toastify";
 
 
 export default function MySheets() {
@@ -99,6 +101,55 @@ export default function MySheets() {
                                                         hideModal();
                                                     },
                                                 });
+                                            },
+                                        },
+                                        {
+                                            title: t("side_bar.change_sheet_cover"),
+                                            icon: "picture-in-picture-line",
+                                            show: item.id !== defaultSheet.id,
+                                            async onClick() {
+                                                const result = await dialogUtil.showOpenDialog({
+                                                    title: t("side_bar.change_sheet_cover"),
+                                                    properties: ["openFile"],
+                                                    filters: [
+                                                        {
+                                                            name: t("side_bar.sheet_cover_image_filter"),
+                                                            extensions: ["png", "jpg", "jpeg", "webp", "gif", "bmp"],
+                                                        },
+                                                    ],
+                                                });
+                                                const filePath = result.filePaths?.[0];
+                                                if (result.canceled || !filePath) {
+                                                    return;
+                                                }
+                                                try {
+                                                    const dataUrl = await fsUtil.readFileAsDataUrl(filePath);
+                                                    await MusicSheet.frontend.updateSheet(item.id, {
+                                                        artwork: dataUrl,
+                                                    });
+                                                    toast.success(t("side_bar.change_sheet_cover_success"));
+                                                } catch (error) {
+                                                    toast.error(error instanceof Error
+                                                        ? error.message
+                                                        : t("side_bar.change_sheet_cover_failed"));
+                                                }
+                                            },
+                                        },
+                                        {
+                                            title: t("side_bar.reset_sheet_cover"),
+                                            icon: "arrow-path",
+                                            show: item.id !== defaultSheet.id && !!item.artwork,
+                                            async onClick() {
+                                                try {
+                                                    await MusicSheet.frontend.updateSheet(item.id, {
+                                                        artwork: "",
+                                                    });
+                                                    toast.success(t("side_bar.reset_sheet_cover_success"));
+                                                } catch (error) {
+                                                    toast.error(error instanceof Error
+                                                        ? error.message
+                                                        : t("side_bar.change_sheet_cover_failed"));
+                                                }
                                             },
                                         },
                                         {

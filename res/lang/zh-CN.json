@@ -235,6 +235,12 @@
     "starred_sheets": "我的收藏",
     "delete_sheet": "删除歌单",
     "rename_sheet": "重命名歌单",
+    "change_sheet_cover": "更换封面",
+    "sheet_cover_image_filter": "图片",
+    "change_sheet_cover_success": "歌单封面已更新",
+    "change_sheet_cover_failed": "更换封面失败",
+    "reset_sheet_cover": "恢复默认封面",
+    "reset_sheet_cover_success": "已恢复默认封面",
     "unstar_sheet": "取消收藏",
     "statistics": "听歌统计"
   },

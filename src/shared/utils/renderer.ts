@@ -5,6 +5,7 @@ interface IMod {
     fs: {
         writeFile(...args: Parameters<typeof fs.writeFile>): ReturnType<typeof fs.writeFile>;
         readFile(...args: Parameters<typeof fs.readFile>): ReturnType<typeof fs.readFile>;
+        readFileAsDataUrl: (filePath: string) => Promise<string>;
         isFile: (path: string) => Promise<boolean>;
         isFolder: (path: string) => Promise<boolean>;
         rimraf: typeof rimraf.rimraf;

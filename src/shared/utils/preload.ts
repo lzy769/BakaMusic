@@ -17,6 +17,24 @@ function readFile(...args: Parameters<typeof originalFsReadFile>): ReturnType<ty
     return originalFsReadFile(...args);
 }
 
+const IMAGE_MIME_BY_EXT: Record<string, string> = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+    ".bmp": "image/bmp",
+};
+
+/** 读取本地图片并转成 data URL，用于设置歌单封面等场景。 */
+async function readFileAsDataUrl(filePath: string) {
+    const data = await fs.readFile(filePath);
+    const ext = filePath.slice(filePath.lastIndexOf(".")).toLowerCase();
+    const mime = IMAGE_MIME_BY_EXT[ext] ?? "application/octet-stream";
+    return `data:${mime};base64,${Buffer.from(data).toString("base64")}`;
+}
+
 async function isFile(path: string) {
     try {
         const stat = await fs.stat(path);
@@ -44,6 +62,7 @@ function addFileScheme(filePath: string) {
 const fsUtil = {
     writeFile,
     readFile,
+    readFileAsDataUrl,
     isFile,
     isFolder,
     rimraf,

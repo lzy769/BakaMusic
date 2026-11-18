@@ -235,6 +235,12 @@
     "starred_sheets": "Favorites",
     "delete_sheet": "Delete",
     "rename_sheet": "Rename",
+    "change_sheet_cover": "Change Cover",
+    "sheet_cover_image_filter": "Image",
+    "change_sheet_cover_success": "Sheet cover updated",
+    "change_sheet_cover_failed": "Failed to change cover",
+    "reset_sheet_cover": "Reset Cover",
+    "reset_sheet_cover_success": "Cover reset to default",
     "unstar_sheet": "Unstar",
     "statistics": "Listening Stats"
   },
