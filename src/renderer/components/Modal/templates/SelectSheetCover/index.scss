@@ -46,11 +46,20 @@
   & .select-sheet-cover--item {
     width: 100%;
     aspect-ratio: 1 / 1;
-    object-fit: cover;
+    padding: 0;
+    border: 0;
     border-radius: var(--controlRadius, 10px);
-    cursor: pointer;
     background: color-mix(in srgb, var(--textColor) 6%, transparent);
+    cursor: pointer;
+    overflow: hidden;
     transition: transform 160ms ease, box-shadow 160ms ease;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
 
     &:hover {
       transform: scale(1.04);

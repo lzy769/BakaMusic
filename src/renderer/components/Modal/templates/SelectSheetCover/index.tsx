@@ -68,18 +68,22 @@ export default function SelectSheetCover(props: IProps) {
                     ) : covers.length ? (
                         <div className="select-sheet-cover--grid">
                             {covers.map((src) => (
-                                <img
+                                <button
                                     key={src}
+                                    type="button"
                                     className="select-sheet-cover--item"
-                                    src={src}
-                                    alt=""
-                                    draggable={false}
-                                    role="button"
+                                    title={t("side_bar.change_sheet_cover")}
                                     onClick={() => {
                                         onSelect(src);
                                         hideModal();
                                     }}
-                                />
+                                >
+                                    <img
+                                        src={src}
+                                        alt=""
+                                        draggable={false}
+                                    />
+                                </button>
                             ))}
                         </div>
                     ) : (
