@@ -34,6 +34,15 @@ import {
 const UPDATE_PROGRESS_INTERVAL_MS = 150;
 const UPDATE_DOWNLOAD_TIMEOUT_MS = 30_000;
 const MAX_RENDERER_FILE_BYTES = 64 * 1024 * 1024;
+const IMAGE_MIME_BY_EXT: Record<string, string> = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".webp": "image/webp",
+    ".svg": "image/svg+xml",
+    ".bmp": "image/bmp",
+};
 type AppPathName = Parameters<typeof app.getPath>[0];
 type OpenDialogProperty = NonNullable<Electron.OpenDialogOptions["properties"]>[number];
 type SaveDialogProperty = NonNullable<Electron.SaveDialogOptions["properties"]>[number];
@@ -508,6 +517,20 @@ class Utils {
                 throw new Error("File is not readable through this bridge");
             }
             return fs.readFile(targetPath, "utf8");
+        });
+
+        ipcMain.handle("@shared/utils/fs-read-file-as-data-url", async (event, filePath) => {
+            assertIpcSender(event, ["main"]);
+            assertString(filePath, "path", 32768);
+            const targetPath = assertPathAccess(filePath);
+            const stat = await fs.stat(targetPath);
+            if (!stat.isFile() || stat.size > MAX_RENDERER_FILE_BYTES) {
+                throw new Error("File is not readable through this bridge");
+            }
+            const data = await fs.readFile(targetPath);
+            const ext = path.extname(targetPath).toLowerCase();
+            const mime = IMAGE_MIME_BY_EXT[ext] ?? "application/octet-stream";
+            return `data:${mime};base64,${data.toString("base64")}`;
         });
 
         ipcMain.handle("@shared/utils/fs-is-file", async (event, filePath) => {

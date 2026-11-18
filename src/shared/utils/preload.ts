@@ -16,6 +16,10 @@ async function readFile(filePath: string, encoding: "utf8" | "utf-8" = "utf8") {
     return await ipcRenderer.invoke("@shared/utils/fs-read-file", filePath, encoding) as string;
 }
 
+async function readFileAsDataUrl(filePath: string) {
+    return await ipcRenderer.invoke("@shared/utils/fs-read-file-as-data-url", filePath) as string;
+}
+
 async function isFile(path: string) {
     return await ipcRenderer.invoke("@shared/utils/fs-is-file", path) as boolean;
 }
@@ -57,6 +61,7 @@ function addFileScheme(filePath: string) {
 const fsUtil = {
     writeFile,
     readFile,
+    readFileAsDataUrl,
     isFile,
     isFolder,
     rimraf: removeFile,

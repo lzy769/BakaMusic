@@ -151,6 +151,10 @@ export async function updateSheet(
     try {
         await backend.updateSheet(sheetId, newData);
         musicSheetsStore.setValue(backend.getAllSheets());
+        // 封面等元数据变化后，正在打开的歌单详情需要同步刷新
+        if (newData?.artwork !== undefined) {
+            refetchSheetDetail(sheetId);
+        }
     } catch {
         return;
     }

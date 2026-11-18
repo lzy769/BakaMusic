@@ -2,6 +2,7 @@ interface IMod {
     fs: {
         writeFile(filePath: string, data: string, encoding?: "utf8" | "utf-8"): Promise<void>;
         readFile(filePath: string, encoding?: "utf8" | "utf-8"): Promise<string>;
+        readFileAsDataUrl(filePath: string): Promise<string>;
         isFile: (path: string) => Promise<boolean>;
         isFolder: (path: string) => Promise<boolean>;
         rimraf: (path: string) => Promise<boolean>;
