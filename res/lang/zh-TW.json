@@ -396,6 +396,8 @@
         "change_sheet_cover_failed": "更換封面失敗",
         "reset_sheet_cover": "恢復預設封面",
         "reset_sheet_cover_success": "已恢復預設封面",
+    "sheet_cover_pick_local_file": "從本機圖片檔案中選擇",
+    "sheet_cover_no_song_cover": "歌單裡的歌曲還沒有封面",
         "unstar_sheet": "取消收藏",
         "statistics": "聽歌統計"
     },

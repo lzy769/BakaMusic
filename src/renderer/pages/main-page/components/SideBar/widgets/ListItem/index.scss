@@ -28,6 +28,16 @@
     transition: opacity 160ms ease;
   }
 
+  & .side-bar--list-item-cover {
+    width: 1.28rem;
+    height: 1.28rem;
+    flex-shrink: 0;
+    border-radius: 4px;
+    object-fit: cover;
+    opacity: 0.9;
+    transition: opacity 160ms ease;
+  }
+
   & span {
     min-width: 0;
     white-space: nowrap;

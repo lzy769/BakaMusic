@@ -243,6 +243,27 @@ export async function setStarredMusicSheets(sheets: IMedia.IMediaBase[]) {
     starredSheetsStore.setValue(backend.getAllStarredSheets());
 }
 
+/**
+ * 更新收藏歌单信息（如封面）
+ * @param sheet 目标歌单
+ * @param newData 需要更新的字段
+ */
+export async function updateStarredSheet(
+    sheet: IMedia.IMediaBase,
+    newData: Partial<IMedia.IMediaBase>,
+) {
+    await backend.updateStarredSheet(sheet, newData);
+    starredSheetsStore.setValue(backend.getAllStarredSheets());
+}
+
+/**
+ * 取歌单详情（含歌曲列表）
+ * @param sheetId 歌单 id
+ */
+export async function getSheetItemDetail(sheetId: string) {
+    return await backend.getSheetItemDetail(sheetId);
+}
+
 /**************************** 歌曲相关方法 ************************/
 
 /**

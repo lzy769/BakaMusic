@@ -1,0 +1,76 @@
+.modal--select-sheet-cover-container {
+  width: 620px;
+  display: flex;
+  flex-direction: column;
+}
+
+.select-sheet-cover--body {
+  width: 100%;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  & .select-sheet-cover--local-file {
+    flex-shrink: 0;
+    height: 38px;
+    margin-bottom: 14px;
+    border-radius: var(--controlRadius, 10px);
+    border: 1px solid var(--panelRowBorder, color-mix(in srgb, var(--textColor) 9%, transparent));
+    background: var(--panelRowSurface, color-mix(in srgb, var(--textColor) 4%, transparent));
+    color: var(--textColor);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--panelRowSurfaceHover, color-mix(in srgb, var(--textColor) 7%, transparent));
+    }
+  }
+
+  & .select-sheet-cover--grid {
+    max-height: 360px;
+    overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(84px, 1fr));
+    gap: 10px;
+    padding: 4px;
+    border-radius: var(--controlRadiusLg, 14px);
+    border: 1px solid var(--panelRowBorder, color-mix(in srgb, var(--textColor) 9%, transparent));
+    background: var(--panelRowSurface, color-mix(in srgb, var(--textColor) 4%, transparent));
+    box-sizing: border-box;
+  }
+
+  & .select-sheet-cover--item {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    padding: 0;
+    border: 0;
+    border-radius: var(--controlRadius, 10px);
+    background: color-mix(in srgb, var(--textColor) 6%, transparent);
+    cursor: pointer;
+    overflow: hidden;
+    transition: transform 160ms ease, box-shadow 160ms ease;
+
+    & img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    &:hover {
+      transform: scale(1.04);
+      box-shadow: 0 4px 14px rgb(0 0 0 / 26%);
+    }
+  }
+
+  & .select-sheet-cover--empty {
+    padding: 26px 0;
+    text-align: center;
+    color: var(--sideBarTextSecondary, var(--appTextPrimary));
+    font-size: 0.9rem;
+  }
+}

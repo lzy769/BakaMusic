@@ -5,6 +5,7 @@ import BottomLoadingState from "@/renderer/components/BottomLoadingState";
 import MusicSheetlikeItem from "@/renderer/components/MusicSheetlikeItem";
 import Condition from "../Condition";
 import Empty from "../Empty";
+import { useCustomSheetArtwork } from "@/renderer/utils/use-custom-sheet-artwork";
 
 interface IMusicSheetlikeListProps {
     data: IMusic.IMusicSheetItem[];
@@ -15,18 +16,24 @@ interface IMusicSheetlikeListProps {
 
 function MusicSheetlikeList(props: IMusicSheetlikeListProps) {
     const { data = [], state, onLoadMore, onClick } = props;
+    // 收藏歌单若被用户自定义过封面，优先展示用户设置的那张
+    const getCustomArtwork = useCustomSheetArtwork();
 
     return (
         <div className="music-sheet-like-list--container">
             <Condition condition={data.length !== 0} falsy={<Empty></Empty>}>
                 <div className="music-sheet-like-list--body">
                     {data.map((mediaItem, index) => {
+                        const customArtwork = getCustomArtwork(mediaItem);
+                        const displayItem = customArtwork
+                            ? { ...mediaItem, artwork: customArtwork }
+                            : mediaItem;
                         return (
                             <MusicSheetlikeItem
                                 onClick={() => {
                                     onClick?.(mediaItem);
                                 }}
-                                mediaItem={mediaItem}
+                                mediaItem={displayItem}
                                 key={index}
                             ></MusicSheetlikeItem>
                         );

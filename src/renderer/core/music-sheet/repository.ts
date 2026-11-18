@@ -486,6 +486,25 @@ export async function setStarredMusicSheets(sheets: IMedia.IMediaBase[]) {
     await mutateStarredSheets(() => sheets);
 }
 
+/**
+ * 更新收藏歌单的信息（如封面）
+ *
+ * 收藏歌单的 artwork 由插件提供，用户手动更换的封面单独存放在 customArtwork，
+ * 以便与插件封面区分、展示时优先使用用户设置的那张。
+ * @param sheet 目标歌单
+ * @param newData 需要更新的字段
+ */
+export async function updateStarredSheet(
+    sheet: IMedia.IMediaBase,
+    newData: Partial<IMedia.IMediaBase>,
+) {
+    await mutateStarredSheets((sheets) => sheets.map((item) =>
+        isSameMedia(item, sheet)
+            ? { ...item, ...newData }
+            : item,
+    ));
+}
+
 export async function replaceStarredImportedSheet(
     sheet: IMedia.IMediaBase,
     sources: IMusic.IImportedSheetSource[],

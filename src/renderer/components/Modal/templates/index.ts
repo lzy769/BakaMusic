@@ -8,6 +8,7 @@ import PlayMusicById from "./PlayMusicById";
 import PluginSubscription from "./PluginSubscription";
 import Reconfirm from "./Reconfirm";
 import SearchLyric from "./SearchLyric";
+import SelectSheetCover from "./SelectSheetCover";
 import SimpleInputWithState from "./SimpleInputWithState";
 import Sparkles from "./Sparkles";
 import SongRecognition from "./SongRecognition";
@@ -32,4 +33,5 @@ export default {
     ImportMusicSheet,
     Loading,
     PlayMusicById,
+    SelectSheetCover,
 };

@@ -3,6 +3,7 @@ import { useLocation, useParams } from "react-router-dom";
 import usePluginSheetMusicList from "./hooks/usePluginSheetMusicList";
 import MusicSheetlikeView from "@/renderer/components/MusicSheetlikeView";
 import MusicSheetFavoriteOption from "@/renderer/components/MusicSheetFavoriteOption";
+import { useCustomSheetArtwork } from "@/renderer/utils/use-custom-sheet-artwork";
 
 export default function RemoteSheet() {
     const { platform, id } = useParams() ?? {};
@@ -20,9 +21,20 @@ export default function RemoteSheet() {
         id ?? "",
         importedSheet,
     );
+
+    // 收藏歌单允许用户自定义封面：本地保存的自定义封面优先于插件返回的封面
+    const getCustomArtwork = useCustomSheetArtwork();
+    const customArtwork = getCustomArtwork({
+        id: id ?? "",
+        platform: platform ?? "",
+    });
+    const mergedSheetItem = customArtwork
+        ? { ...sheetItem, artwork: customArtwork }
+        : sheetItem;
+
     return (
         <MusicSheetlikeView
-            musicSheet={sheetItem}
+            musicSheet={mergedSheetItem}
             musicList={musicList}
             state={state}
             onLoadMore={() => {
