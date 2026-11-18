@@ -7,10 +7,12 @@ interface IProps {
     onContextMenu?: (...args: any) => void;
     iconName?: SvgAssetIconNames;
     title?: string;
+    /** 自定义封面（用户手动设置的歌单封面），有值时优先显示 */
+    artwork?: string;
 }
 
 export default function ListItem(props: IProps) {
-    const { selected, onClick, iconName, title, onContextMenu } = props ?? {};
+    const { selected, onClick, iconName, title, onContextMenu, artwork } = props ?? {};
     return (
         <div
             onClick={onClick}
@@ -28,7 +30,15 @@ export default function ListItem(props: IProps) {
             className="side-bar--list-item-container"
             data-selected={selected}
         >
-            {iconName ? <SvgAsset iconName={iconName}></SvgAsset> : null}
+            {artwork ? (
+                <img
+                    className="side-bar--list-item-cover"
+                    src={artwork}
+                    alt={title ?? ""}
+                    draggable={false}
+                />
+            ) : null}
+            {iconName && !artwork ? <SvgAsset iconName={iconName}></SvgAsset> : null}
             <span>{title ?? ""}</span>
         </div>
     );

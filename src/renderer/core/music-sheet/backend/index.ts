@@ -314,6 +314,26 @@ export async function unstarMusicSheet(sheet: IMedia.IMediaBase) {
 }
 
 /**
+ * 更新收藏歌单的信息（如封面）
+ * 收藏歌单的 artwork 来自插件，用户自定义封面单独存放在 customArtwork，
+ * 以便与插件封面区分、展示时优先使用用户设置的那张。
+ * @param sheet 目标歌单
+ * @param newData 需要更新的字段
+ */
+export async function updateStarredSheet(
+    sheet: IMedia.IMediaBase,
+    newData: Partial<IMedia.IMediaBase>,
+) {
+    const newSheets = starredMusicSheets.map((item) =>
+        isSameMedia(item, sheet)
+            ? { ...item, ...newData }
+            : item,
+    );
+    await setUserPreferenceIDB("starredMusicSheets", newSheets);
+    starredMusicSheets = newSheets;
+}
+
+/**
  * 收藏歌单排序
  */
 

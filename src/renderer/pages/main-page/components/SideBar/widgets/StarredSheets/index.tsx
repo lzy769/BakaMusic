@@ -7,6 +7,8 @@ import { localPluginName } from "@/common/constant";
 import { showContextMenu } from "@/renderer/components/ContextMenu";
 import { useTranslation } from "react-i18next";
 import SvgAsset from "@/renderer/components/SvgAsset";
+import { openSheetCoverPicker } from "@/renderer/utils/open-sheet-cover-picker";
+import { toast } from "react-toastify";
 
 export default function StarredSheets() {
     const sheetIdMatch = useMatch("/main/musicsheet/:platform/:sheetId");
@@ -35,6 +37,7 @@ export default function StarredSheets() {
                         <ListItem
                             key={item.id}
                             iconName={"musical-note"}
+                            artwork={item.customArtwork}
                             onClick={() => {
                                 if (
                                     !(
@@ -55,6 +58,34 @@ export default function StarredSheets() {
                                     x: e.clientX,
                                     y: e.clientY,
                                     menuItems: [
+                                        {
+                                            title: t("side_bar.change_sheet_cover"),
+                                            icon: "picture-in-picture-line",
+                                            async onClick() {
+                                                await openSheetCoverPicker(item, async (artwork) => {
+                                                    await MusicSheet.frontend.updateStarredSheet(item, {
+                                                        customArtwork: artwork,
+                                                    });
+                                                });
+                                            },
+                                        },
+                                        {
+                                            title: t("side_bar.reset_sheet_cover"),
+                                            icon: "arrow-path",
+                                            show: !!item.customArtwork,
+                                            async onClick() {
+                                                try {
+                                                    await MusicSheet.frontend.updateStarredSheet(item, {
+                                                        customArtwork: "",
+                                                    });
+                                                    toast.success(t("side_bar.reset_sheet_cover_success"));
+                                                } catch (error) {
+                                                    toast.error(error instanceof Error
+                                                        ? error.message
+                                                        : t("side_bar.change_sheet_cover_failed"));
+                                                }
+                                            },
+                                        },
                                         {
                                             title: t("side_bar.unstar_sheet"),
                                             icon: "trash",

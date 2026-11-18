@@ -241,6 +241,8 @@
     "change_sheet_cover_failed": "Failed to change cover",
     "reset_sheet_cover": "Reset Cover",
     "reset_sheet_cover_success": "Cover reset to default",
+    "sheet_cover_pick_local_file": "Choose from local image files",
+    "sheet_cover_no_song_cover": "Songs in this playlist have no cover yet",
     "unstar_sheet": "Unstar",
     "statistics": "Listening Stats"
   },
